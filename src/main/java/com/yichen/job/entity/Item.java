@@ -1,0 +1,181 @@
+package com.yichen.job.entity;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.Objects;
+import java.util.Set;
+
+// Let Jackson library convert JSON response to this entity model class
+
+// Ignore fields in the response which are not defined in the class Item
+@JsonIgnoreProperties(ignoreUnknown = true)
+// Only display non-null filed
+@JsonInclude(JsonInclude.Include.NON_NULL)
+
+// POJO, represents a job posting
+// Usually POJO needs to implement equals(), hashCode(), toString()
+public class Item {
+
+    private String id;
+    private String title;
+    private String location;
+    private String companyLogo;
+    private String url;
+    private String description;
+    private Set<String> keywords;  // use set to de-dup and not store sequence
+    private boolean favorite; // indicate if this item set as favorite by user
+
+    // GETTER Methods
+    // because of the private fields, we need to add Jackson annotations for the get methods
+    @JsonProperty("id")
+    public String getId() {
+        return id;
+    }
+
+    @JsonProperty("title")
+    public String getTitle() {
+        return title;
+    }
+
+    @JsonProperty("location")
+    public String getLocation() {
+        return location;
+    }
+
+    @JsonProperty("company_logo")
+    public String getCompanyLogo() {
+        return companyLogo;
+    }
+
+    @JsonProperty("url")
+    public String getUrl() {
+        return url;
+    }
+
+    @JsonProperty("description")
+    public String getDescription() {
+        return description;
+    }
+
+    @JsonProperty("keywords")
+    public Set<String> getKeywords() {
+        return keywords;
+    }
+
+    @JsonProperty("favorite")
+    public boolean isFavorite() {
+        return favorite;
+    }
+
+    // SETTER Methods
+    public void setKeywords(Set<String> keywords) {
+        this.keywords = keywords;
+    }
+
+    public void setFavorite(boolean favorite) {
+        this.favorite = favorite;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Item item = (Item) o;
+        return favorite == item.favorite &&
+                Objects.equals(id, item.id) &&
+                Objects.equals(title, item.title) &&
+                Objects.equals(location, item.location) &&
+                Objects.equals(companyLogo, item.companyLogo) &&
+                Objects.equals(url, item.url) &&
+                Objects.equals(description, item.description) &&
+                Objects.equals(keywords, item.keywords);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, location, companyLogo, url, description, keywords, favorite);
+    }
+
+    @Override
+    public String toString() {
+        return "Item{" +
+                "id='" + id + '\'' +
+                ", title='" + title + '\'' +
+                ", location='" + location + '\'' +
+                ", companyLogo='" + companyLogo + '\'' +
+                ", url='" + url + '\'' +
+                ", description='" + description + '\'' +
+                ", keywords=" + keywords +
+                ", favorite=" + favorite +
+                '}';
+    }
+
+    // Builder Pattern
+    public static class Builder {
+        private String id;
+        private String title;
+        private String location;
+        private String companyLogo;
+        private String url;
+        private String description;
+        private Set<String> keywords;
+        private boolean favorite;
+
+        // "return this" is used to chain function
+        public Builder id(String id) {
+            this.id = id;
+            return this;
+        }
+
+        public Builder title(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder location(String location) {
+            this.location = location;
+            return this;
+        }
+
+        public Builder companyLogo(String companyLogo) {
+            this.companyLogo = companyLogo;
+            return this;
+        }
+
+        public Builder url(String url) {
+            this.url = url;
+            return this;
+        }
+
+        public Builder description(String description) {
+            this.description = description;
+            return this;
+        }
+
+        public Builder keywords(Set<String> keywords) {
+            this.keywords = keywords;
+            return this;
+        }
+
+        public Builder favorite(Boolean favorite) {
+            this.favorite = favorite;
+            return this;
+        }
+
+        public Item build() {
+            Item item = new Item();
+            item.id = id;
+            item.title = title;
+            item.location = location;
+            item.companyLogo = companyLogo;
+            item.url = url;
+            item.description = description;
+            item.keywords = keywords;
+            item.favorite = favorite;
+            return item;
+        }
+
+    }
+}
