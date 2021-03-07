@@ -4,8 +4,8 @@
     // Default variables
     var user_id = '1111';
     var user_fullname = 'John Smith';
-    var lng = -71.06;
-    var lat = 42.43;
+    var lng = -122.33;
+    var lat = 37.61;
 
     // Initialize major event handlers
     function init() {
@@ -331,8 +331,8 @@
 
     // if get user's position, get latitude and longitude
     function onPositionUpdated(position) {
-        // lat = position.coords.latitude;
-        // lng = position.coords.longitude;
+        lat = position.coords.latitude;
+        lng = position.coords.longitude;
 
         // display nearby items
         loadNearbyItems();
